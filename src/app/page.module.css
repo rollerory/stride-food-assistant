@@ -1,0 +1,12 @@
+.page {}
+
+.main {
+    padding-top: 120px;
+    flex-grow: 1;
+}
+
+/* .logo {
+    @media (prefers-color-scheme: dark) {
+        filter: invert();
+    }
+} */

@@ -1,0 +1,11 @@
+.head {
+    padding-bottom: 28px;
+    border-bottom: 1px solid $mess;
+    margin-bottom: 28px;
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 16px;
+    }
+}

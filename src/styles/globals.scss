@@ -1,0 +1,71 @@
+
+:root {
+  --foreground: #171717;
+  --font-family: var(--font-urbanist), sans-serif;
+}
+
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     --background: #0a0a0a;
+//     --foreground: #ededed;
+//   }
+// }
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: $text;
+  background: $bg-light;
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+
+.container {
+    max-width: 1260px;
+    padding: 0 20px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+h1 {
+    color: $green;
+    @include text(mob-head-title, semi-bold)
+}
+
+footer {
+    background-image: url('../assets/images/footer-decor.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center bottom;
+    height: 64px;
+    width: 100%;
+}
+
+// @media (prefers-color-scheme: dark) {
+//   html {
+//     color-scheme: dark;
+//   }
+// }

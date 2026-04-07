@@ -1,0 +1,8 @@
+@use "sass:map";
+@use "./typography" as *;
+
+@mixin text($type, $weight: regular) {
+  font-size: map.get($font-sizes, $type);
+  line-height: map.get($line-heights, $type);
+  font-weight: map.get($font-weights, $weight);
+}
