@@ -1,38 +1,40 @@
-.recipe-actions {
+.actions {
     display: flex;
     align-items: center;
     gap: 12px;
     margin-bottom: 40px;
-    &__btn {
-        position: relative;
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        border: 2px solid $mess;
-        background: transparent;
-        transition: all .3s ease;
-        &--tip {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 10px;
-            background: $bg-light;
-            padding: 2px 4px;
-            opacity: 0;
-            backdrop-filter: blur(2px);
-            pointer-events: none;
-            transition: all .3s ease;
-        }
-        &:hover {
-            cursor: pointer;
-            & > .recipe-actions__btn--tip {
-                opacity: 0.8;
-                transition-delay: 1.5s;
-            }
+}
+
+.button {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid $mess;
+    background: transparent;
+    transition: all .3s ease;
+    &:hover {
+        cursor: pointer;
+        & > .tooltip {
+            opacity: 0.8;
+            transition-delay: 1.5s;
         }
     }
+}
+
+.tooltip {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    background: $bg-light;
+    padding: 2px 4px;
+    opacity: 0;
+    backdrop-filter: blur(2px);
+    pointer-events: none;
+    transition: all .3s ease;
 }

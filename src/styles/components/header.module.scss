@@ -1,50 +1,130 @@
-.header {
+.wrapper {
     background: $blur-bg;
     backdrop-filter: blur(2.5px);
     padding: 36px 0;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    border-radius: 18px 18px 0 0;
+    top: 14px;
+    left: 14px;
+    right: 14px;
     z-index: 10;
     -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-    &__title {
-        @include text(mob-title);
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon,
+.login {
+    background: transparent;
+    border: none;
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    background: $green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    gap: 8px;
+}
+
+.iconImage {
+    object-fit: contain;
+    max-width: 28px;
+    height: 28px;
+}
+
+.iconUser {}
+
+.iconNotification {}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.themeButton {
+    display: block;
+    background: transparent;
+    border: none;
+    max-width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.profile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.username {
+    @include text(mob-text);
+    color: $green;
+    font-weight: map-get($font-weights, semi-bold);
+    max-width: 80px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.userMenu {
+    display: none;
+}
+
+.menuPortal {
+    position: fixed;
+    top: 100px;
+    left: 40px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 100px;
+    animation: slideDown 0.3s ease-out;
+    z-index: 1000;
+}
+
+.menuLogout {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    background: linear-gradient(135deg, rgba($mint, 0.1) 0%, rgba($green, 0.05) 100%);
+    border: none;
+    color: #dc3545;
+    font-weight: map-get($font-weights, semi-bold);
+    font-size: map-get($font-sizes, mob-text);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: linear-gradient(135deg, $mint 0%, $green 100%);
+        color: white;
     }
-    &__inner {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+
+    &:first-child {
+        border-radius: 8px 8px 0 0;
     }
-    &__icon {
-        background: transparent;
-        border: none;
-        height: 48px;
-        width: 48px;
-        border-radius: 50%;
-        background: $green;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        & img {
-            object-fit: contain;
-            max-width: 28px;
-            height: 28px;
-        }
+
+    &:last-child {
+        border-radius: 0 0 8px 8px;
     }
-    &__hug {
-        display: flex;
-        align-items: center;
-        gap: 20px;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
     }
-    &__theme {
-        display: block;
-        background: transparent;
-        border: none;
-        max-width: 28px;
-        height: 28px;
-        cursor: pointer;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

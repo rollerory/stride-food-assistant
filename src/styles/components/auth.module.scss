@@ -1,0 +1,207 @@
+@import '@/styles/vars';
+@import '@/styles/typography';
+@import '@/styles/mixins';
+
+.form {
+  width: 100%;
+  max-width: 450px;
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  margin-bottom: 50px;
+}
+
+.title {
+  font-size: map-get($font-sizes, subtitle);
+  font-weight: map-get($font-weights, semi-bold);
+  color: $text;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.formBody {}
+
+.subtitle {
+  font-size: map-get($font-sizes, mol-text);
+  color: #999;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.field {
+  position: relative;
+  margin-bottom: 24px;
+
+  &:last-of-type {
+    margin-bottom: 32px;
+  }
+}
+
+.label {
+  display: block;
+  font-size: map-get($font-sizes, mob-text);
+  font-weight: map-get($font-weights, medium);
+  color: $text;
+  margin-bottom: 8px;
+}
+
+.password {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: map-get($font-sizes, mob-text);
+  border: 2px solid $light;
+  border-radius: 20px;
+  background: #fafafa;
+  color: $text;
+  transition: all 0.3s ease;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: $mint;
+    background: white;
+    box-shadow: 0 0 0 3px rgba($mint, 0.1);
+  }
+
+  &:disabled {
+    background: #f0f0f0;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &::placeholder {
+    color: #ccc;
+  }
+}
+
+.inputWithToggle {
+  padding-right: 56px;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.passwordIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.submit {
+  width: 100%;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, $mint 0%, $mess 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: map-get($font-sizes, mob-text);
+  font-weight: map-get($font-weights, semi-bold);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba($mint, 0.3);
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba($mint, 0.4);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.errorMessage {
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid #dc3545;
+  border-radius: 20px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-size: map-get($font-sizes, mob-text);
+  color: #dc3545;
+  font-weight: map-get($font-weights, medium);
+}
+
+.successMessage {
+  background: rgba(40, 167, 69, 0.1);
+  border: 1px solid #28a745;
+  border-radius: 20px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-size: map-get($font-sizes, mob-text);
+  color: #28a745;
+  font-weight: map-get($font-weights, medium);
+}
+
+.link {
+  text-align: center;
+  font-size: map-get($font-sizes, mob-text);
+  color: #666;
+  margin-top: 24px;
+
+  a {
+    color: $mint;
+    font-weight: map-get($font-weights, semi-bold);
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $green;
+      text-decoration: underline;
+    }
+  }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 30px 0;
+  color: #ccc;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: $light;
+  }
+}
+
+.dividerText {
+  margin: 0 16px;
+  font-size: map-get($font-sizes, mob-text);
+}
+
+@media (max-width: 600px) {
+  .form {
+    padding: 32px 24px;
+  }
+
+  .title {
+    font-size: map-get($font-sizes, mob-subtitle);
+  }
+
+  .submit {
+    padding: 12px 14px;
+  }
+}
