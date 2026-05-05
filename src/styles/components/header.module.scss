@@ -8,8 +8,8 @@
     left: 14px;
     right: 14px;
     z-index: 10;
-    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, $text 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, $text 70%, transparent 100%);
 }
 
 .content {
@@ -83,7 +83,7 @@
     position: fixed;
     top: 100px;
     left: 40px;
-    background: white;
+    background: $light;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     min-width: 100px;
