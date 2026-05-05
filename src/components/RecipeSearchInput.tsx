@@ -25,7 +25,7 @@ export default function RecipeSearchInput({ search, onChange, onClear, onToggleH
     return (
         <div className={styles.search}>
             <input
-                className={styles.search__input}
+                className={styles.input}
                 type="text"
                 value={search}
                 onChange={(e) => onChange(e.target.value)}
@@ -33,12 +33,12 @@ export default function RecipeSearchInput({ search, onChange, onClear, onToggleH
             />
 
             {search && (
-                <button className={styles['search__input-clear']} onClick={onClear}>
+                <button className={styles.clearButton} onClick={onClear}>
                     <Image width={20} height={20} src={crossIcon} alt="clear" />
                 </button>
             )}
 
-            <button className={styles['search__history-btn']} onClick={onToggleHistory}>
+            <button className={styles.historyButton} onClick={onToggleHistory}>
                 <Image width={22} height={22} src={notebookIcon} alt="history" />
             </button>
 

@@ -14,10 +14,10 @@ export default function Ingredients({ ingredients }: Props) {
         <div className={styles.recipe}>
             {ingredients.map((ingredient, idx) => (
                 <div key={ingredient.id ?? ingredient.name ?? idx} className={styles.ingredient}>
-                    <div className={styles.ingredient__name}>{ingredient.name}</div>
-                    <div className={styles.ingredient__details}>
-                        <p className={styles.ingredient__weight}>{ingredient.amount} {ingredient.unit} |</p>
-                        <p className={styles.ingredient__nutricions}>
+                    <div className={styles.name}>{ingredient.name}</div>
+                    <div className={styles.details}>
+                        <p className={styles.weight}>{ingredient.amount} {ingredient.unit} |</p>
+                        <p className={styles.nutrition}>
                             {ingredient.nutrients && [
                                 {
                                     name: "Calories",

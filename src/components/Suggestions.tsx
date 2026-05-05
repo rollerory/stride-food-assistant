@@ -13,11 +13,11 @@ export default function Suggestions({ suggestions, show, onSelect }: Props) {
     if (!show) return null;
 
     return (
-        <div className={styles['search-results']}> 
+        <div className={styles.results}> 
             {suggestions.map((item) => (
                 <div
                     key={`suggestion-${item.id}`}
-                    className={styles['search-results__item']}
+                    className={styles.resultItem}
                     onClick={() => onSelect(item.title, item.id)}
                 >
                     {item.title}

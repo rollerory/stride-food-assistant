@@ -1,0 +1,23 @@
+.backButtonWrapper {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background: $green;
+  color: $text;
+  text-decoration: none;
+  border-radius: 20px;
+  border: none;
+  font-weight: map-get($font-weights, medium);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: $green;
+    color: $light;
+  }
+}

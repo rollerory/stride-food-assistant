@@ -2,6 +2,7 @@
 
 import { Recipe } from '@/types'
 import styles from '@/styles/components/meal.module.scss'
+import { useAuth } from '@/context/AuthContext';
 
 type Props = {
     show: boolean;
@@ -11,15 +12,17 @@ type Props = {
 };
 
 export default function History({ show, lastRecipes, onSelect }: Props) {
+    const { isAuthenticated } = useAuth()
     if (!show) return null;
 
     return (
-        <div className={styles.search__history}>
-            {lastRecipes.length === 0 && <p>No search history</p>}
-            {lastRecipes.map((item) => (
+        <div className={styles.history}>
+            {!isAuthenticated && <p>Authorize to view search history</p>}
+            {isAuthenticated && lastRecipes.length === 0 && <p>No search history</p>}
+            {isAuthenticated && lastRecipes.map((item) => (
                 <div
                     key={`history-${item.id}`}
-                    className={styles['search__history-item']}
+                    className={styles.historyItem}
                     onClick={() => onSelect(item.title, item.id)}
                 >
                     {item.title}

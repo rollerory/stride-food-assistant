@@ -7,56 +7,52 @@ import { useDispatch, useSelector } from "react-redux"
 import styles from '@/styles/components/meal.module.scss'
 import RecipeSearchInput from './RecipeSearchInput'
 import Ingredients from './Ingredients'
-import { 
-    setSuggestions, 
-    setRecipe, 
-    setIngredients, 
-    setLoading, 
-    setError, 
-    addToHistory 
+import {
+    setSuggestions,
+    setRecipe,
+    setIngredients,
+    setLoading,
+    setError,
+    setLastRecipes,
 } from '@/store/recipe'
-import { fetchSuggestions, fetchRecipeDetails } from '@/services/recipeService'
-import { Suggestion, Recipe, Ingredient } from '@/types'
+import type { RootState } from '@/store/store'
+import { fetchSuggestions, fetchRecipeDetails, addSearchToHistory, getSearchHistory } from '@/services/recipeService'
+import { useAuth } from '@/context/AuthContext'
 import RecipeActions from "./RecipeActions"
-
-interface RootState {
-    recipe: {
-        suggestions: Suggestion[]
-        recipeDetails: any
-        ingredients: Ingredient[]
-        loading: boolean
-        error: string | null
-        lastRecipes: Recipe[]
-    }
-}
 
 export default function RecipeSearch() {
     const dispatch = useDispatch()
     const { suggestions, ingredients, loading, error, lastRecipes } = useSelector((state: RootState) => state.recipe)
-    
+    const { isAuthenticated } = useAuth()
+
     const [search, setSearch] = useState<string>("")
     const [showSuggestions, setShowSuggestions] = useState<boolean>(false)
     const [showHistory, setShowHistory] = useState<boolean>(false)
     const [ingredientsLoading, setIngredientsLoading] = useState<boolean>(false)
     const [recipeId, setRecipeId] = useState<number>(0)
 
-    // Load last recipes from localStorage on mount
+    // Load history from Supabase on mount (only for authenticated users)
     useEffect(() => {
-        const storedRecipes = localStorage.getItem('lastRecipes')
-        if (storedRecipes) {
+        if (!isAuthenticated) return
+
+        const loadHistory = async () => {
             try {
-                const recipes = JSON.parse(storedRecipes)
-                // Sync Redux with localStorage
-                recipes.forEach((recipe: Recipe) => dispatch(addToHistory(recipe)))
+                const data = await getSearchHistory()
+                const recipes = data
+                    .filter(entry => entry.recipe_id !== null)
+                    .map(entry => ({ id: entry.recipe_id as number, title: entry.query }))
+                    .filter((r, i, self) => self.findIndex(x => x.id === r.id) === i)
+                dispatch(setLastRecipes(recipes))
             } catch (err) {
-                console.error('Failed to parse stored recipes:', err)
+                console.error('Failed to load search history:', err)
             }
         }
-    }, [dispatch])
+
+        void loadHistory()
+    }, [isAuthenticated, dispatch])
 
     // Fetch autocomplete suggestions when search changes
     useEffect(() => {
-        // Don't show suggestions if a recipe is already selected
         if (recipeId !== 0) {
             setShowSuggestions(false)
             return
@@ -76,7 +72,7 @@ export default function RecipeSearch() {
                 const data = await fetchSuggestions(search)
                 dispatch(setSuggestions(data))
                 setShowSuggestions(true)
-            } catch (err) {
+            } catch {
                 dispatch(setError("Failed to fetch suggestions"))
             } finally {
                 dispatch(setLoading(false))
@@ -93,26 +89,28 @@ export default function RecipeSearch() {
         setSearch(title)
         setRecipeId(id)
         dispatch(setSuggestions([]))
-        
+
         try {
             setIngredientsLoading(true)
             const fetchedIngredients = await fetchRecipeDetails(id)
-            
+
             dispatch(setRecipe({ id, details: { title } }))
+            setIngredientsLoading(false)
+            await new Promise(r => setTimeout(r, 0))
             dispatch(setIngredients(fetchedIngredients))
-            dispatch(addToHistory({ id, title }))
-            
-            // Persist to localStorage
-            const updated = [
-                { id, title },
-                ...lastRecipes.filter(r => r.id !== id)
-            ].slice(0, 5)
-            
-            localStorage.setItem('lastRecipes', JSON.stringify(updated))
+
+            if (isAuthenticated) {
+                await addSearchToHistory(title, id)
+                const data = await getSearchHistory()
+                const recipes = data
+                    .filter(entry => entry.recipe_id !== null)
+                    .map(entry => ({ id: entry.recipe_id as number, title: entry.query }))
+                    .filter((r, i, self) => self.findIndex(x => x.id === r.id) === i)
+                dispatch(setLastRecipes(recipes))
+            }
         } catch (err) {
             console.error(err)
             dispatch(setError("Failed to fetch recipe details"))
-        } finally {
             setIngredientsLoading(false)
         }
     }
@@ -125,8 +123,8 @@ export default function RecipeSearch() {
 
     return (
         <div>
-            <div className={styles.meal}>
-                <label className={styles.meal__label}>Enter dish name:</label>
+            <div className={styles.panel}>
+                <h3 className={styles.label}>Enter dish name:</h3>
 
                 <RecipeSearchInput
                     search={search}

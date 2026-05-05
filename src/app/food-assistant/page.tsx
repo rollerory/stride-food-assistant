@@ -1,8 +1,6 @@
-import styles from "@/app/page.module.css";
-
 export default function Food() {
     return (
-        <main className={styles.main}>
+        <main className="main">
             <div className="container">
                 <h2>
                     Food page

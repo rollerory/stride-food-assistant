@@ -1,78 +1,60 @@
-.meal {
-    &__label {
-        display: block;
-        @include text(mob-subtitle);
-        margin-bottom: 16px;
-    }
+.panel {
+    margin-bottom: 16px;
 }
+
+.label {
+    margin-bottom: 16px;
+}
+
+.error {}
 
 .search {
     position: relative;
     width: fit-content;
     margin-bottom: 16px;
-    &__input {
-        width: 260px;
-        border: 1px solid $mess;
-        border-radius: 20px;
-        background: $light;
-        padding: 8px 40px 8px 16px ;
-        @include text(mob-text);
-        color: $text;
-        &::placeholder {
-            color: $bg-dark;
-        }
-    }
-    &__input-clear {
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        left: auto;
-        border: none;
-        background: transparent;
-        height: 20px;
-        width: 20px;
-        cursor: pointer;
-    }
-    &__history-btn {
-        position: absolute;
-        right: -30px;
-        top: 50%;
-        transform: translateY(-50%);
-        left: auto;
-        border: none;
-        background: transparent;
-        height: 22px;
-        width: 22px;
-        cursor: pointer;
-    }
-    &__history {
-        position: absolute;
-        top: 50px;
-        left: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        width: 260px;
-        padding: 8px 16px;
-        height: auto;
-        border: 1px solid $mess;
-        border-radius: 20px;
-        background: $light;
-        color: $green;
-        z-index: 5;
-    }
-    &__history-item {
-        cursor: pointer;
-        transition: all .3s ease;
-        &:hover {
-            color: $green;
-            font-weight: 700;
-        }
+}
+
+.input {
+    width: 260px;
+    border: 1px solid $mess;
+    border-radius: 20px;
+    background: $light;
+    padding: 8px 40px 8px 16px;
+    @include text(mob-text);
+    color: $text;
+
+    &::placeholder {
+        color: $bg-dark;
     }
 }
 
-.search-results {
+.clearButton {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: auto;
+    border: none;
+    background: transparent;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.historyButton {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: auto;
+    border: none;
+    background: transparent;
+    height: 22px;
+    width: 22px;
+    cursor: pointer;
+}
+
+.history {
     position: absolute;
     top: 50px;
     left: 0;
@@ -89,6 +71,35 @@
     z-index: 5;
 }
 
+.historyItem {
+    cursor: pointer;
+    transition: all .3s ease;
+
+    &:hover {
+        color: $green;
+        font-weight: 700;
+    }
+}
+
+.results {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 260px;
+    padding: 8px 16px;
+    height: auto;
+    border: 1px solid $mess;
+    border-radius: 20px;
+    background: $light;
+    color: $green;
+    z-index: 5;
+}
+
+.resultItem {}
+
 .recipe {
     display: flex;
     flex-direction: column;
@@ -100,34 +111,35 @@
     margin-bottom: 12px;
 }
 
-.ingredient {
-    &__name {
-        max-width: fit-content;
-        padding: 4px 10px;
-        border-radius: 20px;
-        color: $green;
-        background: $bg-light;
-        margin-bottom: 8px;
-        @include text(mob-subtitle)
-    }
-    &__details {
-        display: flex;
-        gap: 4px;
-        width: 100%;
-        overflow-x: auto;
-        padding-bottom: 8px;
-        border-bottom: 1px solid $light;
-        white-space: nowrap;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    }
+.ingredient {}
 
-    &__weight,
-    &__nutricions {
-        flex-shrink: 0;
+.name {
+    max-width: fit-content;
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: $green;
+    background: $bg-light;
+    margin-bottom: 8px;
+    @include text(mob-subtitle);
+}
+
+.details {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    border-bottom: 1px solid $light;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
     }
-    
+}
+
+.weight,
+.nutrition {
+    flex-shrink: 0;
 }

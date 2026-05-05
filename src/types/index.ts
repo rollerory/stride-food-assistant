@@ -4,11 +4,28 @@ export type Suggestion = {
     title: string;
 };
 
+export type RecipePreview = {
+    title?: string;
+    image?: string;
+};
+
 // Recipe from history
 export type Recipe = {
     id: number;
     title: string;
 };
+
+export interface SavedRecipe {
+    id: string;
+    saved_at: string;
+    recipe_data: RecipePreview | null;
+}
+
+export interface SearchHistoryEntry {
+    query: string;
+    recipe_id: number | null;
+    searched_at: string;
+}
 
 // Individual ingredient with nutrients
 export interface Ingredient {

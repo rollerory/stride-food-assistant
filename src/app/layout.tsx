@@ -13,19 +13,21 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
-    title: "My App",
-    description: "Next.js app with App Router",
+    title: "Stride",
+    description: "Discover, save, and share your favorite recipes with Stride. Your personal recipe book for culinary inspiration.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en" className={urbanist.variable}>
             <body className="body">
-                <ReduxProvider>
-                    <Header />
-                    {children}
-                    <footer />
-                </ReduxProvider>
+                <div className="app-container">
+                    <ReduxProvider>
+                        <Header />
+                        {children}
+                        <footer />
+                    </ReduxProvider>
+                </div>
             </body>
         </html>
     );

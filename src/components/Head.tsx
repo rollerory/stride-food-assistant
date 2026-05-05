@@ -9,17 +9,17 @@ type HeadProps = {
 
 export default function Head({ title, text }: HeadProps) {
     return (
-        <div className={styles.head}>
-            <h1 className={styles.head__title}>
+        <div className={styles.wrapper}>
+            <h1 className={styles.title}>
                 {title}
                 <Image 
-                    className={styles.head__icon} 
+                    className={styles.icon} 
                     width={44}
                     height={44}
                     src={foodIcon}
                     alt="food icon" />
             </h1>
-            <p className={styles.head__text}>
+            <p className={styles.text}>
                 {text}
             </p>
         </div>

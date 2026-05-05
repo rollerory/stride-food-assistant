@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Suggestion, Recipe, Ingredient } from "@/types";
+import { Suggestion, Recipe, Ingredient, RecipeDetails } from "@/types";
+
+type SelectedRecipeDetails = Pick<RecipeDetails, "title">;
 
 interface RecipeState {
     // autocomplete
@@ -8,7 +10,7 @@ interface RecipeState {
 
     // search flow
     recipeId: number | null;
-    recipeDetails: any | null;
+    recipeDetails: SelectedRecipeDetails | null;
     ingredients: Ingredient[];
 
     // history
@@ -45,7 +47,7 @@ const recipeSlice = createSlice({
             state.autocompleteCache[action.payload.query] = action.payload.data;
         },
 
-        setRecipe(state, action: PayloadAction<{ id: number; details: any }>) {
+        setRecipe(state, action: PayloadAction<{ id: number; details: SelectedRecipeDetails }>) {
             state.recipeId = action.payload.id;
             state.recipeDetails = action.payload.details;
         },

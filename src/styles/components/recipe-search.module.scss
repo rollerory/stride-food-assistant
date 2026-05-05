@@ -2,7 +2,7 @@
     position: relative;
     width: fit-content;
     margin-bottom: 16px;
-    &__input {
+.input {
         width: 260px;
         border: 1px solid $mess;
         border-radius: 20px;
@@ -14,7 +14,7 @@
             color: $bg-dark;
         }
     }
-    &__input-clear {
+    .clearButton {
         position: absolute;
         right: 16px;
         top: 50%;
@@ -26,7 +26,7 @@
         width: 20px;
         cursor: pointer;
     }
-    &__history-btn {
+    .historyButton {
         position: absolute;
         right: -30px;
         top: 50%;
@@ -38,7 +38,7 @@
         width: 22px;
         cursor: pointer;
     }
-    &__history {
+    .history {
         position: absolute;
         top: 50px;
         left: 0;
@@ -54,7 +54,7 @@
         color: $green;
         z-index: 5;
     }
-    &__history-item {
+    .historyItem {
         cursor: pointer;
         transition: all .3s ease;
         &:hover {
