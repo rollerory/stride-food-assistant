@@ -13,7 +13,7 @@ export default function Ingredients({ ingredients }: Props) {
     return (
         <div className={styles.recipe}>
             {ingredients.map((ingredient, idx) => (
-                <div key={ingredient.id ?? ingredient.name ?? idx} className={styles.ingredient}>
+                <div key={`${ingredient.id ?? ingredient.name}-${idx}`} className={styles.ingredient}>
                     <div className={styles.name}>{ingredient.name}</div>
                     <div className={styles.details}>
                         <p className={styles.weight}>{ingredient.amount} {ingredient.unit} |</p>

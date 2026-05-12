@@ -16,11 +16,13 @@
     border: 2px solid $mess;
     background: transparent;
     transition: all .3s ease;
-    &:hover {
-        cursor: pointer;
-        & > .tooltip {
-            opacity: 0.8;
-            transition-delay: 1.5s;
+    @media (hover: hover) {
+        &:hover {
+            cursor: pointer;
+            & > .tooltip {
+                opacity: 0.8;
+                transition-delay: 1.5s;
+            }
         }
     }
 }

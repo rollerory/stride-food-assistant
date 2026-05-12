@@ -19,6 +19,7 @@ import type { RootState } from '@/store/store'
 import { fetchSuggestions, fetchRecipeDetails, addSearchToHistory, getSearchHistory } from '@/services/recipeService'
 import { useAuth } from '@/context/AuthContext'
 import RecipeActions from "./RecipeActions"
+import RecipeFATS from "./RecipeFATS"
 
 export default function RecipeSearch() {
     const dispatch = useDispatch()
@@ -92,7 +93,7 @@ export default function RecipeSearch() {
 
         try {
             setIngredientsLoading(true)
-            const fetchedIngredients = await fetchRecipeDetails(id)
+            const { ingredients: fetchedIngredients } = await fetchRecipeDetails(id)
 
             dispatch(setRecipe({ id, details: { title } }))
             setIngredientsLoading(false)
@@ -130,7 +131,7 @@ export default function RecipeSearch() {
                     search={search}
                     onChange={(v) => {
                         setSearch(v)
-                        setRecipeId(0) // Reset recipe selection when search text changes
+                        setRecipeId(0)
                     }}
                     onClear={handleClear}
                     onToggleHistory={() => setShowHistory(!showHistory)}
@@ -151,9 +152,13 @@ export default function RecipeSearch() {
                 {ingredientsLoading && <div><Image src={loaderIcon} width={24} height={24} alt="Loading..." /></div>}
 
                 {recipeId !== 0 && ingredients.length > 0 && (
+                    <RecipeFATS ingredients={ingredients} />
+                )}
+
+                {recipeId !== 0 && ingredients.length > 0 && (
                     <Ingredients ingredients={ingredients} />
                 )}
-                {recipeId !== 0 && ingredients.length > 0 && (
+                {recipeId !== 0 && ingredients.length > 0 && isAuthenticated && (
                 <RecipeActions />
                 )}
             </div>

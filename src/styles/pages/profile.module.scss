@@ -1,7 +1,3 @@
-@import '@/styles/vars';
-@import '@/styles/typography';
-@import '@/styles/mixins';
-
 .page {}
 
 .loading {
@@ -19,8 +15,7 @@
   align-items: center;
   gap: 18px;
   margin-bottom: 16px;
-  font-size: map-get($font-sizes, title);
-  font-weight: map-get($font-weights, semi-bold);
+  @include text(title, semi-bold);
   color: $green;
 }
 
@@ -40,9 +35,8 @@
 }
 
 .value {
-  font-weight: map-get($font-weights, semi-bold);
+  @include text(subtitle, semi-bold);
   color: $text;
-  font-size: map-get($font-sizes, subtitle);
 }
 
 .logoutButton {
@@ -52,8 +46,7 @@
   color: $red;
   border: 2px solid $red;
   border-radius: 20px;
-  font-weight: map-get($font-weights, semi-bold);
-  font-size: map-get($font-sizes, mob-text);
+  @include text(mob-text, semi-bold);
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -64,89 +57,4 @@
   &:active {
     transform: translateY(0);
   }
-}
-
-.savedRecipes {
-  margin-top: 28px;
-}
-
-.recipesList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.recipeCard {
-  background: $light;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    transform: translateY(-4px);
-  }
-}
-
-.recipeContent {
-  padding: 16px;
-}
-
-.recipeTitle {
-  font-size: map-get($font-sizes, mob-text);
-  font-weight: map-get($font-weights, semi-bold);
-  color: $text;
-  margin-bottom: 12px;
-  line-height: 1.3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.recipeImage {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 20px;
-  margin-bottom: 12px;
-}
-
-.savedDate {
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 12px;
-}
-
-.deleteButton {
-  width: 100%;
-  padding: 10px;
-  background: #f0f0f0;
-  border: none;
-  color: #dc3545;
-  font-weight: map-get($font-weights, medium);
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: #dc3545;
-    color: white;
-  }
-}
-
-.empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: #999;
-  font-size: map-get($font-sizes, mob-text);
-}
-
-.error {
-  background: rgba(220, 53, 69, 0.1);
-  color: #dc3545;
-  padding: 16px;
-  border-radius: 20px;
-  margin-bottom: 20px;
 }

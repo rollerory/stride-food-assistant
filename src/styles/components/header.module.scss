@@ -1,6 +1,4 @@
 .wrapper {
-    background: $blur-bg;
-    backdrop-filter: blur(2.5px);
     padding: 36px 0;
     position: fixed;
     border-radius: 18px 18px 0 0;
@@ -8,6 +6,8 @@
     left: 14px;
     right: 14px;
     z-index: 10;
+    background: $blur-bg;
+    backdrop-filter: blur(2.5px);
     -webkit-mask-image: linear-gradient(to bottom, $text 70%, transparent 100%);
     mask-image: linear-gradient(to bottom, $text 70%, transparent 100%);
 }
@@ -66,9 +66,8 @@
 }
 
 .username {
-    @include text(mob-text);
+    @include text(mob-text, semi-bold);
     color: $green;
-    font-weight: map-get($font-weights, semi-bold);
     max-width: 80px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -98,8 +97,7 @@
     background: linear-gradient(135deg, rgba($mint, 0.1) 0%, rgba($green, 0.05) 100%);
     border: none;
     color: #dc3545;
-    font-weight: map-get($font-weights, semi-bold);
-    font-size: map-get($font-sizes, mob-text);
+    @include text(mob-text, semi-bold);
     cursor: pointer;
     text-align: center;
     transition: all 0.2s ease;

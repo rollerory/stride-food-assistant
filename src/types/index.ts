@@ -17,8 +17,9 @@ export type Recipe = {
 
 export interface SavedRecipe {
     id: string;
-    saved_at: string;
-    recipe_data: RecipePreview | null;
+    recipe_id: number;
+    recipe_name: string | null;
+    recipe_fats: number[] | null;
 }
 
 export interface SearchHistoryEntry {
@@ -49,4 +50,7 @@ export interface RecipeDetails {
     nutrition?: {
         ingredients: Ingredient[];
     };
+    analyzedInstructions?: {
+        steps: { step: string }[];
+    }[];
 }
