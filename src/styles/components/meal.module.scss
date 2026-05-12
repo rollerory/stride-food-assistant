@@ -143,3 +143,30 @@
 .nutrition {
     flex-shrink: 0;
 }
+
+.fats {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.fatItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 20px;
+    background: $mint;
+    color: $light;
+    min-width: 70px;
+}
+
+.fatLabel {
+    @include text(mob-text);
+}
+
+.fatValue {
+    @include text(mob-subtitle);
+    font-weight: 700;
+}

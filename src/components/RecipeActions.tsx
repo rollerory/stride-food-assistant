@@ -1,42 +1,83 @@
-"use client"
+"use client";
 
-import Image from 'next/image'
-import { useSelector } from 'react-redux'
-import { saveRecipe } from '@/services/recipeService'
-import type { RootState } from '@/store/store'
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { saveRecipe, isRecipeSaved, unsaveRecipe } from "@/services/recipeService";
+import type { RootState } from "@/store/store";
 
-import RecipesBookIcon from '@assets/icons/recipes-book.svg'
-import CompareIcon from '@assets/icons/compare.svg'
-
-import styles from '@/styles/components/recipe-actions.module.scss'
+import styles from "@/styles/components/recipe-actions.module.scss";
 
 export default function RecipeActions() {
-    const { recipeId, recipeDetails } = useSelector((state: RootState) => state.recipe)
+  const { recipeId, recipeDetails, ingredients } = useSelector(
+    (state: RootState) => state.recipe,
+  );
+  const [saved, setSaved] = useState(false);
 
-    const handleSave = async () => {
-        if (!recipeId || !recipeDetails?.title) {
-            return
-        }
+  useEffect(() => {
+    if (!recipeId) return;
+    setSaved(false);
+    isRecipeSaved(recipeId).then(setSaved).catch(() => {});
+  }, [recipeId]);
 
-        await saveRecipe({
-            id: recipeId,
-            title: recipeDetails.title,
-        })
+  const handleSave = async () => {
+    if (saved) {
+      if (!recipeId) return;
+      await unsaveRecipe(recipeId);
+      setSaved(false);
+      return;
     }
 
-    return (
-        <div className={styles.actions}>
-            <button 
-                className={styles.button}
-                onClick={handleSave}
-            >
-                <Image src={RecipesBookIcon} width={28} height={28} alt="save recipe" />
-                <span className={styles.tooltip}>Save</span>
-            </button>
-            <button className={styles.button}>
-                <Image src={CompareIcon} width={28} height={28} alt="save recipe" />
-                <span className={styles.tooltip}>Compare</span>
-            </button>
-        </div>
-    )
+    if (!recipeId || !recipeDetails?.title) return;
+
+    await saveRecipe({
+      id: recipeId,
+      title: recipeDetails.title,
+      nutrition: { ingredients },
+    });
+    setSaved(true);
+  };
+
+  return (
+    <div className={styles.actions}>
+      <button className={styles.button} onClick={handleSave}>
+        {saved ? (
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.25 20.125H22.75V3.5H7C6.53587 3.5 6.09075 3.68437 5.76256 4.01256C5.43437 4.34075 5.25 4.78587 5.25 5.25V20.125ZM7 1.75H23.625C23.8571 1.75 24.0796 1.84219 24.2437 2.00628C24.4078 2.17038 24.5 2.39294 24.5 2.625V21C24.5 21.2321 24.4078 21.4546 24.2437 21.6187C24.0796 21.7828 23.8571 21.875 23.625 21.875H4.375L3.5 23.4482V5.25C3.5 4.32174 3.86875 3.4315 4.52513 2.77513C5.1815 2.11875 6.07174 1.75 7 1.75Z" fill="#82A294" />
+            <path d="M6.5625 21.875C6.2144 21.875 5.88056 22.0133 5.63442 22.2594C5.38828 22.5056 5.25 22.8394 5.25 23.1875C5.25 23.5356 5.38828 23.8694 5.63442 24.1156C5.88056 24.3617 6.2144 24.5 6.5625 24.5H22.75V21.875H6.5625ZM6.5625 20.125H24.5V24.5C24.5 24.9641 24.3156 25.4092 23.9874 25.7374C23.6592 26.0656 23.2141 26.25 22.75 26.25H6.5625C5.75027 26.25 4.97132 25.9273 4.39699 25.353C3.82266 24.7787 3.5 23.9997 3.5 23.1875C3.5 22.3753 3.82266 21.5963 4.39699 21.022C4.97132 20.4477 5.75027 20.125 6.5625 20.125ZM10.5 3.5V10.36L13.125 8.26L15.75 10.36V3.5H10.5ZM8.75 1.75H17.5V12.18C17.4998 12.3446 17.4531 12.5059 17.3653 12.6452C17.2775 12.7845 17.1522 12.8962 17.0038 12.9675C16.8554 13.0388 16.6899 13.0667 16.5263 13.0482C16.3627 13.0296 16.2077 12.9652 16.079 12.8625L13.125 10.5L10.171 12.8625C10.0423 12.9652 9.8873 13.0296 9.7237 13.0482C9.56011 13.0667 9.39459 13.0388 9.24617 12.9675C9.09775 12.8962 8.97246 12.7845 8.88469 12.6452C8.79692 12.5059 8.75023 12.3446 8.75 12.18V1.75Z" fill="#82A294" />
+            <path d="M10.5 3.5V10.36L13.125 8.26L15.75 10.36V3.5H10.5Z" fill="#82A294" />
+          </svg>
+        ) : (
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.25 20.125H22.75V3.5H7C6.53587 3.5 6.09075 3.68437 5.76256 4.01256C5.43437 4.34075 5.25 4.78587 5.25 5.25V20.125ZM7 1.75H23.625C23.8571 1.75 24.0796 1.84219 24.2437 2.00628C24.4078 2.17038 24.5 2.39294 24.5 2.625V21C24.5 21.2321 24.4078 21.4546 24.2437 21.6187C24.0796 21.7828 23.8571 21.875 23.625 21.875H4.375L3.5 23.4482V5.25C3.5 4.32174 3.86875 3.4315 4.52513 2.77513C5.1815 2.11875 6.07174 1.75 7 1.75Z" fill="#82A294" />
+            <path d="M6.5625 21.875C6.2144 21.875 5.88056 22.0133 5.63442 22.2594C5.38828 22.5056 5.25 22.8394 5.25 23.1875C5.25 23.5356 5.38828 23.8694 5.63442 24.1156C5.88056 24.3617 6.2144 24.5 6.5625 24.5H22.75V21.875H6.5625ZM6.5625 20.125H24.5V24.5C24.5 24.9641 24.3156 25.4092 23.9874 25.7374C23.6592 26.0656 23.2141 26.25 22.75 26.25H6.5625C5.75027 26.25 4.97132 25.9273 4.39699 25.353C3.82266 24.7787 3.5 23.9997 3.5 23.1875C3.5 22.3753 3.82266 21.5963 4.39699 21.022C4.97132 20.4477 5.75027 20.125 6.5625 20.125ZM10.5 3.5V10.36L13.125 8.26L15.75 10.36V3.5H10.5ZM8.75 1.75H17.5V12.18C17.4998 12.3446 17.4531 12.5059 17.3653 12.6452C17.2775 12.7845 17.1522 12.8962 17.0038 12.9675C16.8554 13.0388 16.6899 13.0667 16.5263 13.0482C16.3627 13.0296 16.2077 12.9652 16.079 12.8625L13.125 10.5L10.171 12.8625C10.0423 12.9652 9.8873 13.0296 9.7237 13.0482C9.56011 13.0667 9.39459 13.0388 9.24617 12.9675C9.09775 12.8962 8.97246 12.7845 8.88469 12.6452C8.79692 12.5059 8.75023 12.3446 8.75 12.18V1.75Z" fill="#82A294" />
+          </svg>
+        )}
+        <span className={styles.tooltip}>Save</span>
+      </button>
+      <button className={styles.button}>
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 28 28"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g>
+            <path
+              d="M24.5 5.25H15.75V3.5C15.75 3.03587 15.5656 2.59075 15.2374 2.26256C14.9092 1.93437 14.4641 1.75 14 1.75H3.5C3.03587 1.75 2.59075 1.93437 2.26256 2.26256C1.93437 2.59075 1.75 3.03587 1.75 3.5V21C1.75 21.4641 1.93437 21.9092 2.26256 22.2374C2.59075 22.5656 3.03587 22.75 3.5 22.75H12.25V24.5C12.25 24.9641 12.4344 25.4092 12.7626 25.7374C13.0908 26.0656 13.5359 26.25 14 26.25H24.5C24.9641 26.25 25.4092 26.0656 25.7374 25.7374C26.0656 25.4092 26.25 24.9641 26.25 24.5V7C26.25 6.53587 26.0656 6.09075 25.7374 5.76256C25.4092 5.43437 24.9641 5.25 24.5 5.25ZM3.5 13.125H8.89875L6.64125 15.3913L7.875 16.625L12.25 12.25L7.875 7.875L6.64125 9.10875L8.89875 11.375H3.5V3.5H14V21H3.5V13.125ZM14 24.5V22.75C14.4641 22.75 14.9092 22.5656 15.2374 22.2374C15.5656 21.9092 15.75 21.4641 15.75 21V7H24.5V14.875H19.1012L21.3587 12.6087L20.125 11.375L15.75 15.75L20.125 20.125L21.3587 18.8913L19.1012 16.625H24.5V24.5H14Z"
+              fill="#82A294"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_41_424">
+              <rect width="28" height="28" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+
+        <span className={styles.tooltip}>Compare</span>
+      </button>
+    </div>
+  );
 }
+

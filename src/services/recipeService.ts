@@ -40,20 +40,23 @@ export async function fetchSuggestions(query: string): Promise<Suggestion[]> {
 }
 
 /**
- * Fetch detailed recipe information including nutrients
+ * Fetch detailed recipe information including nutrients and instructions
  */
-export async function fetchRecipeDetails(recipeId: number): Promise<Ingredient[]> {
+export async function fetchRecipeDetails(recipeId: number): Promise<{ ingredients: Ingredient[]; instructions: string[] }> {
     try {
         const response = await fetch(
             `${BASE_URL}/recipes/${recipeId}/information?includeNutrition=true&apiKey=${API_KEY}`
         );
-        
+
         if (!response.ok) {
             throw new Error(`API error: ${response.status}`);
         }
-        
+
         const recipe: RecipeDetails = await response.json();
-        return recipe.nutrition?.ingredients || [];
+        return {
+            ingredients: recipe.nutrition?.ingredients || [],
+            instructions: recipe.analyzedInstructions?.[0]?.steps.map(s => s.step) || [],
+        };
     } catch (error) {
         console.error('Failed to fetch recipe details:', error);
         throw error;
@@ -69,14 +72,43 @@ export async function saveRecipe(recipeData: RecipeDetails) {
     
     const { data, error } = await supabase
         .from('saved_recipes')
-        .insert({ 
-            user_id: userId, 
-            recipe_data: recipeData 
+        .insert({
+            user_id: userId,
+            recipe_id: recipeData.id,
+            recipe_name: recipeData.title,
+            recipe_fats: recipeData.nutrition?.ingredients.reduce(
+                (acc, ing) => {
+                    acc[0] += ing.nutrients?.find(n => n.name === "Calories")?.amount || 0;
+                    acc[1] += ing.nutrients?.find(n => n.name === "Protein")?.amount || 0;
+                    acc[2] += ing.nutrients?.find(n => n.name === "Fat")?.amount || 0;
+                    acc[3] += ing.nutrients?.find(n => n.name === "Carbohydrates")?.amount || 0;
+                    return acc;
+                },
+                [0, 0, 0, 0]
+            )
         })
         .select();
     
     if (error) throw error;
     return data;
+}
+
+/**
+ * Check if a recipe is already saved by the current user
+ */
+export async function isRecipeSaved(recipeId: number): Promise<boolean> {
+    const supabase = createClient();
+    const userId = await getAuthenticatedUserId();
+
+    const { data, error } = await supabase
+        .from('saved_recipes')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('recipe_id', recipeId)
+        .maybeSingle();
+
+    if (error) throw error;
+    return data !== null;
 }
 
 /**
@@ -90,10 +122,26 @@ export async function getSavedRecipes(): Promise<SavedRecipe[]> {
         .from('saved_recipes')
         .select('*')
         .eq('user_id', userId)
-        .order('saved_at', { ascending: false });
+        .order('id', { ascending: false });
     
     if (error) throw error;
     return data ?? [];
+}
+
+/**
+ * Unsave recipe by spoonacular recipe id (used for toggle in RecipeActions)
+ */
+export async function unsaveRecipe(recipeId: number) {
+    const supabase = createClient();
+    const userId = await getAuthenticatedUserId();
+
+    const { error } = await supabase
+        .from('saved_recipes')
+        .delete()
+        .eq('recipe_id', recipeId)
+        .eq('user_id', userId);
+
+    if (error) throw error;
 }
 
 /**

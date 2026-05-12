@@ -1,7 +1,3 @@
-@import '@/styles/vars';
-@import '@/styles/typography';
-@import '@/styles/mixins';
-
 .form {
   width: 100%;
   max-width: 450px;
@@ -13,8 +9,7 @@
 }
 
 .title {
-  font-size: map-get($font-sizes, subtitle);
-  font-weight: map-get($font-weights, semi-bold);
+  @include text(subtitle, semi-bold);
   color: $text;
   margin-bottom: 8px;
   text-align: center;
@@ -23,7 +18,7 @@
 .formBody {}
 
 .subtitle {
-  font-size: map-get($font-sizes, mol-text);
+  @include text(mol-text);
   color: #999;
   text-align: center;
   margin-bottom: 32px;
@@ -40,8 +35,7 @@
 
 .label {
   display: block;
-  font-size: map-get($font-sizes, mob-text);
-  font-weight: map-get($font-weights, medium);
+  @include text(mob-text, medium);
   color: $text;
   margin-bottom: 8px;
 }
@@ -53,7 +47,7 @@
 .input {
   width: 100%;
   padding: 12px 16px;
-  font-size: map-get($font-sizes, mob-text);
+  @include text(mob-text);
   border: 2px solid $light;
   border-radius: 20px;
   background: #fafafa;
@@ -110,8 +104,7 @@
   color: white;
   border: none;
   border-radius: 20px;
-  font-size: map-get($font-sizes, mob-text);
-  font-weight: map-get($font-weights, semi-bold);
+  @include text(mob-text, semi-bold);
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba($mint, 0.3);
@@ -137,9 +130,8 @@
   border-radius: 20px;
   padding: 12px 16px;
   margin-bottom: 24px;
-  font-size: map-get($font-sizes, mob-text);
+  @include text(mob-text, medium);
   color: #dc3545;
-  font-weight: map-get($font-weights, medium);
 }
 
 .successMessage {
@@ -148,20 +140,19 @@
   border-radius: 20px;
   padding: 12px 16px;
   margin-bottom: 24px;
-  font-size: map-get($font-sizes, mob-text);
+  @include text(mob-text, medium);
   color: #28a745;
-  font-weight: map-get($font-weights, medium);
 }
 
 .link {
   text-align: center;
-  font-size: map-get($font-sizes, mob-text);
+  @include text(mob-text);
   color: #666;
   margin-top: 24px;
 
   a {
     color: $mint;
-    font-weight: map-get($font-weights, semi-bold);
+    font-weight: 600;
     text-decoration: none;
     transition: color 0.3s ease;
 
@@ -189,7 +180,7 @@
 
 .dividerText {
   margin: 0 16px;
-  font-size: map-get($font-sizes, mob-text);
+  @include text(mob-text);
 }
 
 @media (max-width: 600px) {
@@ -198,7 +189,7 @@
   }
 
   .title {
-    font-size: map-get($font-sizes, mob-subtitle);
+    @include text(mob-subtitle);
   }
 
   .submit {
